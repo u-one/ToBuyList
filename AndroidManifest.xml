@@ -45,7 +45,7 @@
 			android:name="com.google.android.gms.version"
 			android:value="@integer/google_play_services_version" />
 		<activity android:name="PlaceDetailActivity"></activity>
-		<activity android:name="ToBuyItemDetailActivity"></activity>
+		<activity android:name="ItemDetailActivity"></activity>
 		<provider android:name=".model.ItemProvider" 
 		    android:authorities="com.backflip270bb.android.tobuylist4ics"
 		    android:exported="false" />
