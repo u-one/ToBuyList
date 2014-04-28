@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="14dp" >
+
+    <TextView
+        android:id="@+id/labelDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingBottom="5dp"
+        android:paddingTop="5dp"
+        android:textSize="@dimen/itemdetail_text_size"
+        android:text="Date" />
+
+    <TextView
+        android:id="@+id/textViewDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="14dp"
+        android:layout_alignBaseline="@+id/labelDate"
+        android:layout_toRightOf="@+id/labelDate"
+		android:textSize="@dimen/itemdetail_text_size" />
+
+    <TextView
+        android:id="@+id/textViewName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/labelDate"
+        android:layout_marginTop="@dimen/itemdetail_vertical_margin"
+        android:paddingBottom="5dp"
+        android:paddingTop="5dp"
+        android:textSize="@dimen/itemdetail_text_size"
+        android:text="Name" />
+
+    <EditText
+        android:id="@+id/editTextName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/textViewName"
+        android:layout_alignLeft="@+id/textViewDate"
+        android:ems="10"
+		android:textSize="@dimen/itemdetail_text_size"
+        android:inputType="text" >
+
+        <requestFocus />
+    </EditText>
+
+    <TextView
+        android:id="@+id/textViewBorderNotif"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/itemdetail_border_height"
+        android:layout_below="@id/textViewName"
+        android:layout_marginTop="@dimen/itemdetail_vertical_margin"
+        android:background="#888888"
+		android:textSize="@dimen/itemdetail_text_size"
+        android:text="Notification" />
+
+    <Switch
+        android:id="@+id/switchNotification"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+		android:layout_marginTop="@dimen/itemdetail_vertical_margin"
+        android:layout_below="@id/textViewBorderNotif"
+        android:text="" />
+    <!--
+                  Spinner
+                android:id="@+id/spinnerPlace"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/switchNotification"
+    -->
+
+    <TextView
+        android:id="@+id/textViewMemo"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/itemdetail_border_height"
+		android:layout_marginTop="@dimen/itemdetail_vertical_margin"
+        android:layout_below="@id/switchNotification"
+        android:background="#888888"
+		android:textSize="@dimen/itemdetail_text_size"
+        android:text="Memo" />
+
+    <EditText
+        android:id="@+id/editTextMemo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textViewMemo"
+        android:ems="10"
+		android:textSize="@dimen/itemdetail_text_size"
+        android:inputType="textMultiLine" >
+    </EditText>
+
+    <Button
+        android:id="@+id/button1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:text="Button" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/button1"
+        android:layout_toRightOf="@id/button1"
+        android:text="Button" />
+
+    <Button
+        android:id="@+id/button3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/button2"
+        android:layout_toRightOf="@id/button2"
+        android:text="Button" />
+
+</RelativeLayout>

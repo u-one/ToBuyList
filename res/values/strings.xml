@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">ToBuyList</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_section1">ToBuyItems</string>
+    <string name="title_section2">Places</string>
+    <string name="title_section3">Debug</string>
+    <string name="action_new">Add</string>
+    <string name="action_save">Save</string>
+    <string name="saving_done">保存しました</string>
+    <string name="dialog_saveconfirm">保存しますか？</string>
+    <string name="dialog_saveconfirm_yes">保存</string>
+    <string name="dialog_saveconfirm_no">保存せず終了</string>
+    <string name="dialog_ok">OK</string>
+    <string name="dialog_positionunset">位置が未設定です。地図上の指定したい場所をタップすると設定できます。</string>
+</resources>

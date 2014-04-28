@@ -1,0 +1,30 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context=".MainActivity$DummySectionFragment" >
+
+    <EditText
+        android:id="@+id/editText"
+        android:inputType="text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentBottom="true"
+        android:ems="10" >
+    </EditText>
+
+    <ImageButton
+        android:id="@+id/buttonOk"
+		android:src="@drawable/ic_action_new"
+		android:background="@null"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@+id/editText"
+        android:contentDescription="+"
+         />
+
+
+</RelativeLayout>
