@@ -63,20 +63,19 @@
 		android:layout_marginTop="@dimen/itemdetail_vertical_margin"
         android:layout_below="@id/textViewBorderNotif"
         android:text="" />
-    <!--
-                  Spinner
-                android:id="@+id/spinnerPlace"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/switchNotification"
-    -->
+    <Spinner
+        android:id="@+id/spinnerPlace"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+		android:layout_marginTop="@dimen/itemdetail_vertical_margin"
+        android:layout_below="@id/switchNotification" />
 
     <TextView
         android:id="@+id/textViewMemo"
         android:layout_width="match_parent"
         android:layout_height="@dimen/itemdetail_border_height"
 		android:layout_marginTop="@dimen/itemdetail_vertical_margin"
-        android:layout_below="@id/switchNotification"
+        android:layout_below="@id/spinnerPlace"
         android:background="#888888"
 		android:textSize="@dimen/itemdetail_text_size"
         android:text="Memo" />
