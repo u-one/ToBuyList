@@ -7,7 +7,6 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 
 public class ItemDetailActivity extends FragmentActivity {
-	private static final int ID_INVALID = -1;
 	
 	public static void start(Activity activity) {
 		Intent intent = new Intent();

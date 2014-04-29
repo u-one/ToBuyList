@@ -12,8 +12,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.backflip270bb.android.tobuylist4ics.model.ItemProviderContract;
-import com.backflip270bb.android.tobuylist4ics.model.PlaceItems;
-import com.backflip270bb.android.tobuylist4ics.model.ToBuyItems;
 
 public class DebugFragment extends Fragment {
 	@Override

@@ -24,8 +24,6 @@ import android.widget.NumberPicker;
 import android.widget.Toast;
 
 import com.backflip270bb.android.tobuylist4ics.model.ItemProviderContract;
-import com.backflip270bb.android.tobuylist4ics.model.PlaceItem;
-import com.backflip270bb.android.tobuylist4ics.model.PlaceItems;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -123,7 +121,7 @@ public class PlaceDetailFragment extends Fragment implements LoaderManager.Loade
 	@Override
 	public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
 		if (cursor.moveToFirst()) {
-			String name = cursor.getString(cursor.getColumnIndexOrThrow(ItemProviderContract.Place.NAME_COLUMN));
+			//String name = cursor.getString(cursor.getColumnIndexOrThrow(ItemProviderContract.Place.NAME_COLUMN));
 			long lat = cursor.getLong(cursor.getColumnIndexOrThrow(ItemProviderContract.Place.LAT_COLUMN));
 			long lon = cursor.getLong(cursor.getColumnIndexOrThrow(ItemProviderContract.Place.LON_COLUMN));
 			int distance = cursor.getInt(cursor.getColumnIndexOrThrow(ItemProviderContract.Place.DISTANCE_COLUMN));
