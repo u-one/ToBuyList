@@ -3,6 +3,7 @@ package com.backflip270bb.android.tobuylist4ics;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
+import android.content.ContentValues;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -13,8 +14,14 @@ import android.support.v4.content.Loader;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.backflip270bb.android.tobuylist4ics.model.ItemProviderContract;
@@ -26,11 +33,74 @@ public class ItemDetailFragment extends Fragment implements LoaderManager.Loader
 	private static final int TOBUYITEM_LOADER = 0;
 	private static final int PLACE_LOADER = 1;
 	
-	ItemCursorAdapter placeAdapter;
+	Long id = null;
+	Long time = null;
+	Switch switchNotification;
+	Long placeId = null;
+	Spinner placeSpinner;
+	PlaceSpinnerCursorAdapter placeAdapter;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_detail, container, false);
+		
+		placeSpinner = (Spinner)view.findViewById(R.id.spinnerPlace);
+		placeSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+			@Override
+			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+				placeId = id;
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> parent) {
+				placeId = null;
+			}
+		});
+		switchNotification = (Switch)view.findViewById(R.id.switchNotification);
+		switchNotification.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				placeSpinner.setEnabled(isChecked);
+				if (isChecked) {
+					placeSpinner.setVisibility(View.VISIBLE);
+				} else {
+					placeId = null;
+					placeSpinner.setVisibility(View.GONE);
+				}
+			}
+		});
+		
+		Button buttonCancel = (Button)view.findViewById(R.id.buttonCancel); 
+		buttonCancel.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				getActivity().finish();
+			}
+		});
+		Button buttonSave = (Button)view.findViewById(R.id.buttonSave);
+		buttonSave.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				EditText nameEditText = (EditText)getView().findViewById(R.id.editTextName);
+				EditText memoEditText = (EditText)getView().findViewById(R.id.editTextMemo);
+				boolean notify = switchNotification.isChecked();
+				ContentValues values = new ContentValues();
+				if (id != null) {
+					values.put(ItemProviderContract.Item.ROW_ID, id);
+				}
+				values.put(ItemProviderContract.Item.NAME_COLUMN, nameEditText.getEditableText().toString());
+				values.put(ItemProviderContract.Item.DATE_COLUMN, time);
+				values.put(ItemProviderContract.Item.MEMO_COLUMN, memoEditText.getEditableText().toString());
+				if (notify) {
+					values.put(ItemProviderContract.Item.SHOULDNOTIFY_COLUMN, notify);
+					values.put(ItemProviderContract.Item.PLACEID_COLUMN, placeId);
+				}
+				getActivity().getContentResolver().insert(ItemProviderContract.ITEM_CONTENTURI, values);
+				
+				getActivity().finish();
+			}
+		});
+		
 		return view;
 	}
 	
@@ -45,9 +115,11 @@ public class ItemDetailFragment extends Fragment implements LoaderManager.Loader
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 	
-		Spinner spinner = (Spinner)getView().findViewById(R.id.spinnerPlace);
-		placeAdapter = new ItemCursorAdapter(getActivity(), null, true);
-		spinner.setAdapter(placeAdapter);   	
+		placeAdapter = new PlaceSpinnerCursorAdapter(getActivity(), null, true);
+		placeSpinner.setAdapter(placeAdapter);   	
+		
+		time = Calendar.getInstance().getTimeInMillis();
+		setCurrentTime(time);
 		
 		getLoaderManager().initLoader(PLACE_LOADER, null, this);
 		getLoaderManager().initLoader(TOBUYITEM_LOADER, getArguments(), this);
@@ -78,21 +150,27 @@ public class ItemDetailFragment extends Fragment implements LoaderManager.Loader
 				placeAdapter.notifyDataSetChanged();
 				break;
 			case TOBUYITEM_LOADER:
+				id = cursor.getLong(cursor.getColumnIndexOrThrow(ItemProviderContract.Item.ROW_ID));
 				String name = cursor.getString(cursor.getColumnIndexOrThrow(ItemProviderContract.Item.NAME_COLUMN));
 				String memo = cursor.getString(cursor.getColumnIndexOrThrow(ItemProviderContract.Item.MEMO_COLUMN));
-				long date = cursor.getLong(cursor.getColumnIndexOrThrow(ItemProviderContract.Item.DATE_COLUMN));
-				Long placeId = cursor.getLong(cursor.getColumnIndexOrThrow(ItemProviderContract.Item.PLACEID_COLUMN));
-				boolean done = cursor.getInt(cursor.getColumnIndexOrThrow(ItemProviderContract.Item.DONE_COLUMN)) == 0 ? false : true;
+				time = cursor.getLong(cursor.getColumnIndexOrThrow(ItemProviderContract.Item.DATE_COLUMN));
+				placeId = cursor.getLong(cursor.getColumnIndexOrThrow(ItemProviderContract.Item.PLACEID_COLUMN));
+				boolean notify = cursor.getInt(cursor.getColumnIndexOrThrow(ItemProviderContract.Item.SHOULDNOTIFY_COLUMN)) == 0 ? false : true;
+				//boolean done = cursor.getInt(cursor.getColumnIndexOrThrow(ItemProviderContract.Item.DONE_COLUMN)) == 0 ? false : true;
+				switchNotification.setChecked(notify);
+				if (notify) {
+					placeSpinner.setVisibility(View.VISIBLE);
+				} else {
+					placeId = null;
+					placeSpinner.setVisibility(View.GONE);
+				}
 
 				EditText editTextName = (EditText)getView().findViewById(R.id.editTextName);
 				editTextName.getEditableText().append(name);
 				EditText editTextMemo = (EditText)getView().findViewById(R.id.editTextMemo);
 				editTextMemo.getEditableText().append(memo);
-				SimpleDateFormat format = new SimpleDateFormat("yyy/MM/dd HH:mm:ss");
-				TextView textViewDate = (TextView)getView().findViewById(R.id.textViewDate);
-				Calendar calendar = Calendar.getInstance();
-				calendar.setTimeInMillis(date);
-				textViewDate.setText(format.format(calendar.getTime()));
+				setCurrentTime(time);
+				
 				break;
 			}
 		}
@@ -100,5 +178,13 @@ public class ItemDetailFragment extends Fragment implements LoaderManager.Loader
 
 	@Override
 	public void onLoaderReset(Loader<Cursor> loader) {
+	}
+	
+	private void setCurrentTime(long timeInMillis) {
+		SimpleDateFormat format = new SimpleDateFormat("yyy/MM/dd HH:mm:ss");
+		TextView textViewDate = (TextView)getView().findViewById(R.id.textViewDate);
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTimeInMillis(timeInMillis);
+		textViewDate.setText(format.format(calendar.getTime()));
 	}
 }

@@ -14,4 +14,6 @@
     <string name="dialog_saveconfirm_no">保存せず終了</string>
     <string name="dialog_ok">OK</string>
     <string name="dialog_positionunset">位置が未設定です。地図上の指定したい場所をタップすると設定できます。</string>
+    <string name="cancel">Cancel</string>
+    <string name="save">Save</string>
 </resources>
