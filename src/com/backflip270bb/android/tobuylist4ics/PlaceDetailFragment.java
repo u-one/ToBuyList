@@ -20,6 +20,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.NumberPicker;
 import android.widget.Toast;
 
@@ -45,10 +46,13 @@ public class PlaceDetailFragment extends Fragment implements LoaderManager.Loade
 	private static final int RADIUS_MAX = 1000;
 	private static final int RADIUS_MIN = 0;
 	private static final int RADIUS_DEFAULT = 100;
-	private static final int ZOOM_DEFAULT = 17;
+	private static final int ZOOM_DEFAULT = 15;
+	
+	EditText nameEditText;
 
 	GoogleMap map;
 	NumberPicker numberPikcer;
+	Long id = null;
 	LatLng currentPos;
 	Location myLocation = null;
 	int currentRadius = RADIUS_DEFAULT;
@@ -91,6 +95,14 @@ public class PlaceDetailFragment extends Fragment implements LoaderManager.Loade
 			public void onMyLocationChange(Location location) {
 				debugToast("onMyLocationChange:"+location.toString());
 				myLocation = location;
+				
+				if (currentPos == null) {
+					currentPos = new LatLng(myLocation.getLatitude(), myLocation.getLongitude());
+					CameraUpdate update = CameraUpdateFactory.newLatLngZoom(currentPos, ZOOM_DEFAULT);
+					if (update != null) {
+						map.moveCamera(update);
+					}
+				}
 			}
 		});
 		map.setOnMyLocationButtonClickListener(new OnMyLocationButtonClickListener() {
@@ -123,13 +135,18 @@ public class PlaceDetailFragment extends Fragment implements LoaderManager.Loade
 	@Override
 	public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
 		if (cursor.moveToFirst()) {
-			//String name = cursor.getString(cursor.getColumnIndexOrThrow(ItemProviderContract.Place.NAME_COLUMN));
-			long lat = cursor.getLong(cursor.getColumnIndexOrThrow(ItemProviderContract.Place.LAT_COLUMN));
-			long lon = cursor.getLong(cursor.getColumnIndexOrThrow(ItemProviderContract.Place.LON_COLUMN));
+			id = cursor.getLong(cursor.getColumnIndexOrThrow(ItemProviderContract.Place.ROW_ID));
+			String name = cursor.getString(cursor.getColumnIndexOrThrow(ItemProviderContract.Place.NAME_COLUMN));
+			double lat = cursor.getDouble(cursor.getColumnIndexOrThrow(ItemProviderContract.Place.LAT_COLUMN));
+			double lon = cursor.getDouble(cursor.getColumnIndexOrThrow(ItemProviderContract.Place.LON_COLUMN));
 			int distance = cursor.getInt(cursor.getColumnIndexOrThrow(ItemProviderContract.Place.DISTANCE_COLUMN));
 			
 			currentPos = new LatLng(lat, lon);
 			currentRadius = distance;
+
+			updatePos();
+			nameEditText.setText(name);
+			numberPikcer.setValue(currentRadius/RADIUS_STEP);
 			
 			CameraUpdate update = CameraUpdateFactory.newLatLngZoom(currentPos, ZOOM_DEFAULT);
 			if (update != null) {
@@ -144,7 +161,10 @@ public class PlaceDetailFragment extends Fragment implements LoaderManager.Loade
 	
 	private void save() {
 		ContentValues values = new ContentValues();
-		values.put(ItemProviderContract.Place.NAME_COLUMN, "name");
+		if (id != null) {
+			values.put(ItemProviderContract.Place.ROW_ID, id);
+		}
+		values.put(ItemProviderContract.Place.NAME_COLUMN, nameEditText.getEditableText().toString());
 		values.put(ItemProviderContract.Place.LAT_COLUMN, currentPos.latitude);
 		values.put(ItemProviderContract.Place.LON_COLUMN, currentPos.longitude);
 		values.put(ItemProviderContract.Place.DISTANCE_COLUMN, currentRadius);
