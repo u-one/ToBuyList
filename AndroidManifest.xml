@@ -49,6 +49,7 @@
 		<provider android:name=".model.ItemProvider" 
 		    android:authorities="com.backflip270bb.android.tobuylist4ics"
 		    android:exported="false" />
+		<service android:name="ProximityNotificationService" android:exported="false"></service>
     </application>
 
 </manifest>

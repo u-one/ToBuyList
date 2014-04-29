@@ -4,7 +4,10 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import android.content.ContentValues;
+import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -97,10 +100,13 @@ public class ItemDetailFragment extends Fragment implements LoaderManager.Loader
 				}
 				getActivity().getContentResolver().insert(ItemProviderContract.ITEM_CONTENTURI, values);
 				
+				Intent intent = new Intent();
+				intent.setClass(getActivity(), ProximityNotificationService.class);
+				getActivity().startService(intent);
+				
 				getActivity().finish();
 			}
 		});
-		
 		return view;
 	}
 	
@@ -167,8 +173,10 @@ public class ItemDetailFragment extends Fragment implements LoaderManager.Loader
 
 				EditText editTextName = (EditText)getView().findViewById(R.id.editTextName);
 				editTextName.getEditableText().append(name);
-				EditText editTextMemo = (EditText)getView().findViewById(R.id.editTextMemo);
-				editTextMemo.getEditableText().append(memo);
+				if (memo != null) {
+					EditText editTextMemo = (EditText)getView().findViewById(R.id.editTextMemo);
+					editTextMemo.getEditableText().append(memo);
+				}
 				setCurrentTime(time);
 				
 				break;
