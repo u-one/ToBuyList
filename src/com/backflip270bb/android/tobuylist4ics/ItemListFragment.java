@@ -1,6 +1,10 @@
 package com.backflip270bb.android.tobuylist4ics;
 
+import java.util.Calendar;
+
 import android.content.ContentResolver;
+import android.content.ContentValues;
+import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
@@ -15,6 +19,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
@@ -108,7 +113,17 @@ public class ItemListFragment extends ListFragment implements LoaderManager.Load
 			@Override
 			public void onClick(View v) {
 				String name = editText.getText().toString();
-				ItemDetailActivity.start(getActivity(), name);
+				if (true) {
+					ContentValues values = new ContentValues();
+					values.put(ItemProviderContract.Item.NAME_COLUMN, name);
+					values.put(ItemProviderContract.Item.DATE_COLUMN, Calendar.getInstance().getTimeInMillis());
+					getActivity().getContentResolver().insert(ItemProviderContract.ITEM_CONTENTURI, values);
+					editText.setText(null);
+					InputMethodManager inputMethodManager = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+					inputMethodManager.hideSoftInputFromWindow(v.getWindowToken(), 0); 
+				} else {
+					ItemDetailActivity.start(getActivity(), name);
+				}
 			}
 		});
 		super.onCreateOptionsMenu(menu, inflater);
