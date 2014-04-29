@@ -62,7 +62,9 @@ public class PlaceDetailFragment extends Fragment implements LoaderManager.Loade
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_placedetail, container, false);
+		nameEditText = (EditText)view.findViewById(R.id.editTextName);
 		numberPikcer = (NumberPicker)view.findViewById(R.id.numberPicker);
+
 		return view;
 	}
 	

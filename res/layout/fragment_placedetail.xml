@@ -3,11 +3,38 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
     
+    <TextView
+        android:id="@+id/textViewName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+		android:layout_alignParentTop="true"	
+        android:layout_marginTop="@dimen/itemdetail_vertical_margin"
+        android:paddingBottom="5dp"
+        android:paddingTop="5dp"
+        android:textSize="@dimen/itemdetail_text_size"
+        android:text="@string/placeNameLabel" />
+
+    <EditText
+        android:id="@+id/editTextName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/textViewName"
+        android:layout_toRightOf="@+id/textViewName"
+        android:ems="10"
+        android:inputType="text"
+        android:textSize="@dimen/itemdetail_text_size" >
+
+    </EditText>
+    
 <fragment 
 	android:id="@+id/map"
 	android:name="com.google.android.gms.maps.SupportMapFragment"
 	android:layout_width="match_parent"
-	android:layout_height="match_parent" />
+	android:layout_height="match_parent"
+	android:layout_below="@id/textViewName"	
+	android:layout_marginTop="@dimen/itemdetail_vertical_margin"
+	 />
 
 <NumberPicker
     android:id="@+id/numberPicker"
