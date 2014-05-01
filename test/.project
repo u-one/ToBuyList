@@ -3,7 +3,7 @@
 	<name>ToBuyListTest</name>
 	<comment></comment>
 	<projects>
-		<project>ToBuyList4ICS</project>
+		<project>ToBuyList</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
