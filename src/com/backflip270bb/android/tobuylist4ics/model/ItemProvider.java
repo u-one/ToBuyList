@@ -122,6 +122,7 @@ public class ItemProvider extends ContentProvider {
 		switch (sUriMatcher.match(uri)) {
 		case ITEM_QUERY:
 		{
+			Log.d(TAG, "insert Item:"+ values);
 			long id = db.replace(ItemProviderContract.Item.TABLE_NAME, "NULL", values);
 			if (id > 0) {
 				Log.d(TAG, "inserted:"+id);

@@ -1,7 +1,5 @@
 package com.backflip270bb.android.tobuylist4ics;
 
-import com.backflip270bb.android.tobuylist4ics.model.ItemProviderContract;
-
 import android.content.Context;
 import android.database.Cursor;
 import android.view.LayoutInflater;
@@ -9,6 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CursorAdapter;
 import android.widget.TextView;
+
+import com.backflip270bb.android.tobuylist4ics.model.ItemProviderContract;
 
 public class PlaceSpinnerCursorAdapter extends CursorAdapter {
 	LayoutInflater mInflater;
@@ -19,6 +19,20 @@ public class PlaceSpinnerCursorAdapter extends CursorAdapter {
 	public PlaceSpinnerCursorAdapter(Context context, Cursor c, boolean autoRequery) {
 		super(context, c, autoRequery);
 		mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+	}
+	
+	public Integer getPositionFromId(Long id) {
+		Cursor c = getCursor();
+		if (id != null && c != null && c.moveToFirst()) {
+			int position=0;
+			do {
+				if (c.getLong(c.getColumnIndexOrThrow(ItemProviderContract.Place.ROW_ID)) == id) {
+					return position;
+				}
+				position++;
+			} while(c.moveToNext());
+		}
+		return null;
 	}
 
 	@Override
@@ -34,7 +48,7 @@ public class PlaceSpinnerCursorAdapter extends CursorAdapter {
 	public void bindView(View view, Context context, Cursor cursor) {
 		ViewHolder holder = (ViewHolder)view.getTag();
 		
-		String name = cursor.getString(cursor.getColumnIndexOrThrow(ItemProviderContract.Item.NAME_COLUMN));
+		String name = cursor.getString(cursor.getColumnIndexOrThrow(ItemProviderContract.Place.NAME_COLUMN));
 		holder.nameText.setText(name);
 	}
 
@@ -42,7 +56,7 @@ public class PlaceSpinnerCursorAdapter extends CursorAdapter {
 	public long getItemId(int position) {
 		Cursor cursor = getCursor();
 		cursor.moveToPosition(position);
-		Integer id = cursor.getInt(cursor.getColumnIndexOrThrow(ItemProviderContract.Item.ROW_ID));
+		Long id = cursor.getLong(cursor.getColumnIndexOrThrow(ItemProviderContract.Place.ROW_ID));
 		return id;
 	}
 }

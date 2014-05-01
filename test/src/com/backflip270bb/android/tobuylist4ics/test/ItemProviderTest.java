@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.test.ProviderTestCase2;
 import android.util.Log;
 
+import com.backflip270bb.android.tobuylist4ics.PlaceSpinnerCursorAdapter;
 import com.backflip270bb.android.tobuylist4ics.model.ItemProvider;
 import com.backflip270bb.android.tobuylist4ics.model.ItemProviderContract;
 
@@ -199,6 +200,26 @@ public class ItemProviderTest extends ProviderTestCase2<ItemProvider> {
 		} catch (IllegalArgumentException e) {
 			fail();
 		}
+	}
+	
+	public void testPlaceSpinnerCursorAdapter_getPositionFromId() {
+		deleteDatabase();
+		insertPlace("place1", 0, 0, 0);
+		insertPlace("place2", 0, 0, 0);
+		
+		Cursor cursor = queryAllPlace();
+		PlaceSpinnerCursorAdapter adapter = new PlaceSpinnerCursorAdapter(getMockContext(), cursor, true);
+		final int testPos1 = 0;
+		long id = adapter.getItemId(testPos1);
+		Integer position = adapter.getPositionFromId(id);
+		assertNotNull(position);
+		assertEquals(testPos1, (int)position);
+		
+		final int testPos2 = 1;
+		id = adapter.getItemId(testPos2);
+		position = adapter.getPositionFromId(id);
+		assertNotNull(position);
+		assertEquals(testPos2, (int)position);
 	}
 	
 	

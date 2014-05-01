@@ -42,7 +42,7 @@ public class ItemCursorAdapter extends CursorAdapter {
 	public long getItemId(int position) {
 		Cursor cursor = getCursor();
 		cursor.moveToPosition(position);
-		Integer id = cursor.getInt(cursor.getColumnIndexOrThrow(ItemProviderContract.Item.ROW_ID));
+		Long id = cursor.getLong(cursor.getColumnIndexOrThrow(ItemProviderContract.Item.ROW_ID));
 		return id;
 	}
 }
