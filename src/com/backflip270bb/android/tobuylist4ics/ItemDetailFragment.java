@@ -102,7 +102,7 @@ public class ItemDetailFragment extends Fragment implements LoaderManager.Loader
 						time, memoEditText.getEditableText().toString(), notify, placeId);
 				getActivity().getContentResolver().insert(ItemProviderContract.ITEM_CONTENTURI, values);
 				
-				Intent intent = new Intent();
+				Intent intent = new Intent("register");
 				intent.setClass(getActivity(), ProximityNotificationService.class);
 				getActivity().startService(intent);
 				
