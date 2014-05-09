@@ -113,7 +113,7 @@ public class ItemListFragment extends ListFragment implements LoaderManager.Load
 			@Override
 			public void onClick(View v) {
 				String name = editText.getText().toString();
-				if (true) {
+				if (!name.isEmpty()) {
 					ContentValues values = new ContentValues();
 					values.put(ItemProviderContract.Item.NAME_COLUMN, name);
 					values.put(ItemProviderContract.Item.DATE_COLUMN, Calendar.getInstance().getTimeInMillis());
