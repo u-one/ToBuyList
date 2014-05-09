@@ -32,6 +32,13 @@ public class DebugFragment extends Fragment {
 				clear();
 			}
 		});
+		Button buttonCrash = (Button)rootView.findViewById(R.id.buttonCrash);
+		buttonCrash.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				crash();
+			}
+		});
 		return rootView;
 	}
 	
@@ -70,5 +77,9 @@ public class DebugFragment extends Fragment {
 	private void clear() {
 		getActivity().getContentResolver().delete(ItemProviderContract.ITEM_CONTENTURI, null, null);
 		getActivity().getContentResolver().delete(ItemProviderContract.PLACE_CONTENTURI, null, null);
+	}
+	
+	private void crash() {
+		getView().findViewById(99999).setTag(null);
 	}
 }
