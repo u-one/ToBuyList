@@ -74,6 +74,9 @@ public class ItemDetailFragment extends Fragment implements LoaderManager.Loader
 				Log.d(TAG, "onCheckedChanged:" + isChecked);
 				placeSpinner.setEnabled(isChecked);
 				if (isChecked) {
+					if (placeId == null) {
+						placeId = placeSpinner.getItemIdAtPosition(0);
+					}
 					placeSpinner.setVisibility(View.VISIBLE);
 				} else {
 					placeId = null;
@@ -98,8 +101,9 @@ public class ItemDetailFragment extends Fragment implements LoaderManager.Loader
 				EditText nameEditText = (EditText)getView().findViewById(R.id.editTextName);
 				EditText memoEditText = (EditText)getView().findViewById(R.id.editTextMemo);
 				boolean notify = switchNotification.isChecked();
+				
 				ContentValues values  =createContentValues(id, nameEditText.getEditableText().toString(),
-						time, memoEditText.getEditableText().toString(), notify, placeId);
+						time, memoEditText.getEditableText().toString(), notify, placeSpinner.getSelectedItemId());
 				getActivity().getContentResolver().insert(ItemProviderContract.ITEM_CONTENTURI, values);
 				
 				Intent intent = new Intent("register");
