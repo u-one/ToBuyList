@@ -39,6 +39,15 @@ public class DebugFragment extends Fragment {
 				crash();
 			}
 		});
+		
+		Button buttonClearAlerts = (Button)rootView.findViewById(R.id.buttonClearAlerts);
+		buttonClearAlerts.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				ProximityAlertManager alertManager = new ProximityAlertManager(getActivity());
+				alertManager.clearAlerts();
+			}
+		});
 		return rootView;
 	}
 	

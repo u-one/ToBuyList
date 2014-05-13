@@ -36,5 +36,13 @@
         android:layout_alignLeft="@+id/buttonAddTestData"
         android:layout_below="@+id/buttonClear"
         android:text="Crash" />
+    
+    <Button
+        android:id="@+id/buttonClearAlerts"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/buttonAddTestData"
+        android:layout_below="@+id/buttonCrash"
+        android:text="ClearAlerts" />
 
 </RelativeLayout>
