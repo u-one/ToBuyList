@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
+import android.content.Intent;
 import android.database.Cursor;
 import android.location.Location;
 import android.net.Uri;
@@ -93,7 +94,7 @@ public class PlaceDetailFragment extends Fragment implements LoaderManager.Loade
 		map.setOnMyLocationChangeListener(new OnMyLocationChangeListener() {
 			@Override
 			public void onMyLocationChange(Location location) {
-				debugToast("onMyLocationChange:"+location.toString());
+				//debugToast("onMyLocationChange:"+location.toString());
 				myLocation = location;
 				
 				if (currentPos == null) {
@@ -170,8 +171,16 @@ public class PlaceDetailFragment extends Fragment implements LoaderManager.Loade
 		values.put(ItemProviderContract.Place.DISTANCE_COLUMN, currentRadius);
 
 		getActivity().getContentResolver().insert(ItemProviderContract.PLACE_CONTENTURI, values);
+		
+		notifyUpdate();
 	}
-	
+
+	private void notifyUpdate() {
+		Intent intent = new Intent(ProximityNotificationService.ACTION_UPDATE);
+		intent.setClass(getActivity(), ProximityNotificationService.class);
+		getActivity().startService(intent);
+	}
+
 	private void debugToast(String message) {
 		Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
 	}
