@@ -75,6 +75,12 @@ public class MainActivity extends FragmentActivity implements
 	}
 
 	@Override
+	public boolean onPrepareOptionsMenu(Menu menu) {
+		menu.findItem(R.id.action_import).setEnabled(ItemProviderUtil.canImport());
+		return super.onPrepareOptionsMenu(menu);
+	}
+
+	@Override
 	public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
 		mViewPager.setCurrentItem(tab.getPosition());
 	}
@@ -162,6 +168,7 @@ public class MainActivity extends FragmentActivity implements
 			protected void onPreExecute() {
 				super.onPreExecute();
 				Log.i(TAG, "start export");
+				//TODO: show progress
 			}
 
 			@Override
@@ -187,6 +194,7 @@ public class MainActivity extends FragmentActivity implements
 			protected void onPreExecute() {
 				super.onPreExecute();
 				Log.i(TAG, "start import");
+				//TODO: show progress
 			}
 
 			@Override

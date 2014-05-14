@@ -133,6 +133,18 @@ public class ItemProviderUtil {
 		return true;
 	}
 	
+	public static boolean canImport() {
+		String itemsFilePath = Environment.getExternalStorageDirectory().getAbsolutePath()
+				+ '/' + APP_PATH + '/' + ITEMS_CSVFILENAME;
+		File itemsFile = new File(itemsFilePath);
+		
+		String placesFilePath = Environment.getExternalStorageDirectory().getAbsolutePath()
+				+ '/' + APP_PATH + '/' + PLACES_CSVFILENAME;
+		File placesFile = new File(placesFilePath);
+
+		return (itemsFile.canRead() && placesFile.canRead()) ;
+	}
+	
 	public static boolean importItems(ContentResolver resolver) {
 		Log.i(TAG, "importItems");
 		String filePath = Environment.getExternalStorageDirectory().getAbsolutePath()
