@@ -121,6 +121,7 @@ public class ProximityAlertManager {
 	private PendingIntent createIntent(long id) {
 		//FIXME: ProximityNotificationService.ACTION_NOTIFY
 		Intent intent = new Intent(ProximityNotificationService.ACTION_NOTIFY);
+		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		intent.putExtra(ProximityNotificationService.KEY_PLACEID, id);
 		PendingIntent pintent = PendingIntent.getBroadcast(mContext, 0, intent, PendingIntent.FLAG_ONE_SHOT);
 		return pintent;
@@ -148,6 +149,7 @@ public class ProximityAlertManager {
 			.setWhen(Calendar.getInstance().getTimeInMillis())
 			.setContentIntent(pintent)
 			.setVibrate(new long[] {0, 500,500, 500,500, 500,500})
+			.setAutoCancel(true)
 			.getNotification();
 			
 		NotificationManager nmgr;
