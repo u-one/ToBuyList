@@ -223,7 +223,7 @@ public class PlaceDetailFragment extends Fragment implements LoaderManager.Loade
 	
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-		inflater.inflate(R.menu.detail, menu);
+		inflater.inflate(R.menu.place_detail, menu);
 		super.onCreateOptionsMenu(menu, inflater);
 	}
 
@@ -239,6 +239,14 @@ public class PlaceDetailFragment extends Fragment implements LoaderManager.Loade
 				Toast.makeText(getActivity(), R.string.saving_done, Toast.LENGTH_SHORT).show();
 				getActivity().finish();
 			}
+			break;
+		case R.id.action_discard:
+			if (id != null) {
+				Uri uri = Uri.parse(ItemProviderContract.PLACE_CONTENTURI + "/" + id);
+				getActivity().getContentResolver().delete(uri, null, null);
+				notifyUpdate();
+			}
+			getActivity().finish();
 			break;
 		}
 		return super.onOptionsItemSelected(item);

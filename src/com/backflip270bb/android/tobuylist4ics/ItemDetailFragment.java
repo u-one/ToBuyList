@@ -14,6 +14,9 @@ import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -44,6 +47,12 @@ public class ItemDetailFragment extends Fragment implements LoaderManager.Loader
 	Spinner placeSpinner;
 	PlaceSpinnerCursorAdapter placeAdapter;
 	
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setHasOptionsMenu(true);
+	}
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		Log.d(TAG, "onCreateView");
@@ -105,15 +114,17 @@ public class ItemDetailFragment extends Fragment implements LoaderManager.Loader
 				ContentValues values  =createContentValues(id, nameEditText.getEditableText().toString(),
 						time, memoEditText.getEditableText().toString(), notify, placeSpinner.getSelectedItemId());
 				getActivity().getContentResolver().insert(ItemProviderContract.ITEM_CONTENTURI, values);
-				
-				Intent intent = new Intent(ProximityNotificationService.ACTION_UPDATE);
-				intent.setClass(getActivity(), ProximityNotificationService.class);
-				getActivity().startService(intent);
-				
+				notifyUpdate();
 				getActivity().finish();
 			}
 		});
 		return view;
+	}
+	
+	private void notifyUpdate() {
+		Intent intent = new Intent(ProximityNotificationService.ACTION_UPDATE);
+		intent.setClass(getActivity(), ProximityNotificationService.class);
+		getActivity().startService(intent);
 	}
 
 	private ContentValues createContentValues(Long id, String name, long time, String memo, boolean notify, Long placeId) {
@@ -218,12 +229,33 @@ public class ItemDetailFragment extends Fragment implements LoaderManager.Loader
 	public void onLoaderReset(Loader<Cursor> loader) {
 		Log.d(TAG, "onLoaderReset");
 	}
-	
+
 	private void setCurrentTime(long timeInMillis) {
 		SimpleDateFormat format = new SimpleDateFormat("yyy/MM/dd HH:mm:ss");
 		TextView textViewDate = (TextView)getView().findViewById(R.id.textViewDate);
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTimeInMillis(timeInMillis);
 		textViewDate.setText(format.format(calendar.getTime()));
+	}
+
+	@Override
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+		inflater.inflate(R.menu.detail, menu);
+		super.onCreateOptionsMenu(menu, inflater);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch(item.getItemId()) {
+		case R.id.action_discard:
+			if (id != null) {
+				Uri uri = Uri.parse(ItemProviderContract.ITEM_CONTENTURI + "/" + id);
+				getActivity().getContentResolver().delete(uri, null, null);
+				notifyUpdate();
+			}
+			getActivity().finish();
+			break;
+		}
+		return super.onOptionsItemSelected(item);
 	}
 }
