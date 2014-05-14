@@ -7,8 +7,6 @@ import android.os.IBinder;
 import android.os.Vibrator;
 import android.util.Log;
 
-import com.backflip270bb.android.tobuylist4ics.model.ItemProviderContract;
-
 public class ProximityNotificationService extends IntentService {
 	private static final String TAG = "ProximityNotificationService";
 	

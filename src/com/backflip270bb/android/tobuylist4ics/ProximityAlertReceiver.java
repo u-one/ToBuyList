@@ -6,8 +6,6 @@ import android.content.Intent;
 import android.location.LocationManager;
 import android.util.Log;
 
-import com.backflip270bb.android.tobuylist4ics.model.ItemProviderContract;
-
 public class ProximityAlertReceiver extends BroadcastReceiver {
 	private static final String TAG = "ProximityAlertReceiver";
 	@Override
