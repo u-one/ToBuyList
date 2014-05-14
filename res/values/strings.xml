@@ -3,6 +3,8 @@
 
     <string name="app_name">ToBuyList</string>
     <string name="action_settings">Settings</string>
+    <string name="action_import">インポート</string>
+    <string name="action_export">エクスポート</string>
     <string name="title_section1">ToBuyItems</string>
     <string name="title_section2">Places</string>
     <string name="title_section3">Debug</string>

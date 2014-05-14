@@ -1,10 +1,18 @@
 package com.backflip270bb.android.tobuylist4ics;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.util.Locale;
 
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
+import android.database.Cursor;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -16,6 +24,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.backflip270bb.android.tobuylist4ics.model.ItemProviderContract;
 
 public class MainActivity extends FragmentActivity implements
 		ActionBar.TabListener {
@@ -134,7 +144,130 @@ public class MainActivity extends FragmentActivity implements
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
+		switch(item.getItemId()) {
+		case R.id.action_settings:
+			break;
+		case R.id.action_export:
+			exportData();
+			break;
+		case R.id.action_import:
+			break;
+		}
 		return super.onOptionsItemSelected(item);
+	}
+	
+	private void exportData() {
+		new AsyncTask<String, Integer, Boolean>() {
+			
+			@Override
+			protected void onPreExecute() {
+				super.onPreExecute();
+			}
+
+			@Override
+			protected void onPostExecute(Boolean result) {
+				super.onPostExecute(result);
+			}
+
+			@Override
+			protected Boolean doInBackground(String... params) {
+				exportItems();
+				exportPlaces();
+				return true;
+			}
+		}.execute("");
+	}
+	
+	private boolean exportItems() {
+		String filePath = Environment.getExternalStorageDirectory()
+				+ "/ToBuyList/items.csv";
+		File file = new File(filePath);
+		file.getParentFile().mkdir();
+
+		FileOutputStream fos;
+		try {
+			fos = new FileOutputStream(file, false);
+			OutputStreamWriter osw = new OutputStreamWriter(fos, "UTF-8");
+			BufferedWriter bw = new BufferedWriter(osw);
+
+			Cursor cursor = getContentResolver().query(
+					ItemProviderContract.ITEM_CONTENTURI, null, null, null,
+					null);
+			while (cursor.moveToNext()) {
+				long id = cursor
+						.getLong(cursor
+								.getColumnIndexOrThrow(ItemProviderContract.Item.ROW_ID));
+				String name = cursor
+						.getString(cursor
+								.getColumnIndexOrThrow(ItemProviderContract.Item.NAME_COLUMN));
+				String memo = cursor
+						.getString(cursor
+								.getColumnIndexOrThrow(ItemProviderContract.Item.MEMO_COLUMN));
+				long time = cursor
+						.getLong(cursor
+								.getColumnIndexOrThrow(ItemProviderContract.Item.DATE_COLUMN));
+				long placeId = cursor
+						.getLong(cursor
+								.getColumnIndexOrThrow(ItemProviderContract.Item.PLACEID_COLUMN));
+				boolean notify = cursor
+						.getInt(cursor
+								.getColumnIndexOrThrow(ItemProviderContract.Item.SHOULDNOTIFY_COLUMN)) == 0 ? false
+						: true;
+				String line = Long.toString(id) + ',' + name + ',' + memo + ',' + time + ',' + placeId + ',' + notify + '\n';
+				bw.write(line);
+				bw.flush();
+			}
+			bw.close();
+		} catch (IOException e) {
+			return false;
+		}
+		return true;
+	}
+	
+	private boolean exportPlaces() {
+		String filePath = Environment.getExternalStorageDirectory()
+				+ "/ToBuyList/places.csv";
+		File file = new File(filePath);
+		file.getParentFile().mkdir();
+
+		FileOutputStream fos;
+		try {
+			fos = new FileOutputStream(file, false);
+			OutputStreamWriter osw = new OutputStreamWriter(fos, "UTF-8");
+			BufferedWriter bw = new BufferedWriter(osw);
+
+			Cursor cursor = getContentResolver().query(
+					ItemProviderContract.PLACE_CONTENTURI, null, null, null,
+					null);
+			while (cursor.moveToNext()) {
+				long id = cursor
+						.getLong(cursor
+								.getColumnIndexOrThrow(ItemProviderContract.Place.ROW_ID));
+				String name = cursor
+						.getString(cursor
+								.getColumnIndexOrThrow(ItemProviderContract.Place.NAME_COLUMN));
+				double lat = cursor
+						.getDouble(cursor
+								.getColumnIndexOrThrow(ItemProviderContract.Place.LAT_COLUMN));
+				double lon = cursor
+						.getDouble(cursor
+								.getColumnIndexOrThrow(ItemProviderContract.Place.LON_COLUMN));
+				int distance = cursor
+						.getInt(cursor
+								.getColumnIndexOrThrow(ItemProviderContract.Place.DISTANCE_COLUMN));
+				String line = id + ',' + name + ',' + lat + ',' + lon + ',' + distance + '\n';
+				bw.write(line);
+				bw.flush();
+			}
+			
+			bw.close();
+		} catch (IOException e) {
+			return false;
+		}
+		return true;
+	}
+
+	private void importData() {
 	}
 
 	/**
