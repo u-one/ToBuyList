@@ -128,15 +128,16 @@ public class ProximityAlertManager {
 	
 	private void showNotifications(long placeId, String placeName) {
 		Cursor cursor = queryItems(placeId);
+		Log.d(TAG, "showNotifications num:"+cursor.getCount());
 		while(cursor.moveToNext()) {
 			long itemId = cursor.getLong(cursor.getColumnIndexOrThrow(ItemProviderContract.Item.ROW_ID));
 			String itemName = cursor.getString(cursor.getColumnIndexOrThrow(ItemProviderContract.Item.NAME_COLUMN));
-			showNotification(mContext, R.drawable.ic_launcher, "To Buy Item", itemName, "tap to show the list", placeName);
+			showNotification(mContext, R.drawable.ic_launcher, "To Buy Item", itemName, "tap to show the list", placeName, itemId);
 		}
 	}
 
-	private void showNotification(Context context, int iconID, String ticker, String title, String message, String contentInfo) {
-		PendingIntent pintent = PendingIntent.getActivity(context, 0, new Intent(context, MainActivity.class), 0);
+	private void showNotification(Context context, int iconID, String ticker, String title, String message, String contentInfo, Long itemId) {
+		PendingIntent pintent = PendingIntent.getActivity(context, 0, new Intent(context, MainActivity.class), PendingIntent.FLAG_ONE_SHOT);
 		Notification notification = new Notification.Builder(context)
 			.setContentTitle(title)
 			.setContentText(message)
@@ -151,7 +152,7 @@ public class ProximityAlertManager {
 			
 		NotificationManager nmgr;
 		nmgr= (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
-		nmgr.notify(0, notification);
+		nmgr.notify(itemId.hashCode(), notification);
 		
 		// TODO: setting vibe, sound, light, show test
 	}

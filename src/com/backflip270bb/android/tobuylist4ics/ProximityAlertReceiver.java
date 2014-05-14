@@ -14,7 +14,7 @@ public class ProximityAlertReceiver extends BroadcastReceiver {
 	public void onReceive(Context context, Intent intent) {
 		String key = LocationManager.KEY_PROXIMITY_ENTERING;
 		Boolean entering = intent.getBooleanExtra(key, false);
-		Long id = intent.getLongExtra(ItemProviderContract.Place.ROW_ID, -1);
+		Long id = intent.getLongExtra(ProximityNotificationService.KEY_PLACEID, -1);
 		
 		if (entering) {
 			Log.d(TAG, "entering id=" + id);
@@ -29,7 +29,7 @@ public class ProximityAlertReceiver extends BroadcastReceiver {
 	
 	private void startProximityNotificationService(Context context, long id) {
 		Intent intent = new Intent(ProximityNotificationService.ACTION_NOTIFY);
-		intent.putExtra(ItemProviderContract.Place.ROW_ID, id);
+		intent.putExtra(ProximityNotificationService.KEY_PLACEID, id);
 		intent.setClass(context, ProximityNotificationService.class);
 		context.startService(intent);
 	}
