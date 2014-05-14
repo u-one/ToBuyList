@@ -6,6 +6,8 @@
     <string name="title_section1">ToBuyItems</string>
     <string name="title_section2">Places</string>
     <string name="title_section3">Debug</string>
+    <string name="area_text">%1$s 付近</string>
+    <string name="radius_text">半径%1$dm</string>
     <string name="action_new">Add</string>
     <string name="action_save">Save</string>
     <string name="saving_done">保存しました</string>

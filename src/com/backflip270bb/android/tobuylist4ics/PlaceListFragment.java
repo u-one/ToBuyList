@@ -18,7 +18,7 @@ import android.widget.ListView;
 import com.backflip270bb.android.tobuylist4ics.model.ItemProviderContract;
 
 public class PlaceListFragment extends ListFragment implements LoaderManager.LoaderCallbacks<Cursor> {
-	ItemCursorAdapter mItemAdapter;
+	PlaceCursorAdapter mItemAdapter;
 	
 	private static final int PLACE_LOADER = 0;
 
@@ -69,7 +69,7 @@ public class PlaceListFragment extends ListFragment implements LoaderManager.Loa
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 
-		mItemAdapter = new ItemCursorAdapter(getActivity(), null, true);
+		mItemAdapter = new PlaceCursorAdapter(getActivity(), null, true);
 		setListAdapter(mItemAdapter);
 		mItemAdapter.notifyDataSetChanged();
 
