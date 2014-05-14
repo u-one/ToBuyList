@@ -1,23 +1,19 @@
 package com.backflip270bb.android.tobuylist4ics;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
+
+
 import java.util.Locale;
 
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
-import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -25,7 +21,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.backflip270bb.android.tobuylist4ics.model.ItemProviderContract;
+import com.backflip270bb.android.tobuylist4ics.model.ItemProviderUtil;
 
 public class MainActivity extends FragmentActivity implements
 		ActionBar.TabListener {
@@ -44,6 +40,8 @@ public class MainActivity extends FragmentActivity implements
 	 * The {@link ViewPager} that will host the section contents.
 	 */
 	ViewPager mViewPager;
+	
+	private static final String TAG = "MainActivity";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -151,6 +149,7 @@ public class MainActivity extends FragmentActivity implements
 			exportData();
 			break;
 		case R.id.action_import:
+			importData();
 			break;
 		}
 		return super.onOptionsItemSelected(item);
@@ -162,135 +161,47 @@ public class MainActivity extends FragmentActivity implements
 			@Override
 			protected void onPreExecute() {
 				super.onPreExecute();
+				Log.i(TAG, "start export");
 			}
 
 			@Override
 			protected void onPostExecute(Boolean result) {
 				super.onPostExecute(result);
+				Log.i(TAG, "finished export: " + result);
 			}
 
 			@Override
 			protected Boolean doInBackground(String... params) {
-				exportItems();
-				exportPlaces();
+				ItemProviderUtil.exportItems(getContentResolver());
+				ItemProviderUtil.exportPlaces(getContentResolver());
 				return true;
 			}
 		}.execute("");
 	}
-	
-	private boolean exportItems() {
-		String filePath = Environment.getExternalStorageDirectory()
-				+ "/ToBuyList/items.csv";
-		File file = new File(filePath);
-		file.getParentFile().mkdir();
-
-		FileOutputStream fos;
-		BufferedWriter bw = null;
-		try {
-			fos = new FileOutputStream(file, false);
-			OutputStreamWriter osw = new OutputStreamWriter(fos, "UTF-8");
-			bw = new BufferedWriter(osw);
-
-			Cursor cursor = getContentResolver().query(
-					ItemProviderContract.ITEM_CONTENTURI, null, null, null,
-					null);
-			while (cursor.moveToNext()) {
-				try {
-					long id = cursor
-							.getLong(cursor
-									.getColumnIndexOrThrow(ItemProviderContract.Item.ROW_ID));
-					String name = cursor
-							.getString(cursor
-									.getColumnIndexOrThrow(ItemProviderContract.Item.NAME_COLUMN));
-					String memo = cursor
-							.getString(cursor
-									.getColumnIndexOrThrow(ItemProviderContract.Item.MEMO_COLUMN));
-					long time = cursor
-							.getLong(cursor
-									.getColumnIndexOrThrow(ItemProviderContract.Item.DATE_COLUMN));
-					long placeId = cursor
-							.getLong(cursor
-									.getColumnIndexOrThrow(ItemProviderContract.Item.PLACEID_COLUMN));
-					boolean notify = cursor
-							.getInt(cursor
-									.getColumnIndexOrThrow(ItemProviderContract.Item.SHOULDNOTIFY_COLUMN)) == 0 ? false
-											: true;
-					String line = Long.toString(id) + ',' + name + ',' + memo + ',' + time + ',' + placeId + ',' + notify;
-					bw.write(line);
-					bw.newLine();
-					bw.flush();
-				} catch(IllegalArgumentException e) {
-					e.printStackTrace();
-				}
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				if (bw != null) {
-					bw.close();
-				}
-			} catch (IOException e) {
-			}
-		}
-		return true;
-	}
-	
-	private boolean exportPlaces() {
-		String filePath = Environment.getExternalStorageDirectory()
-				+ "/ToBuyList/places.csv";
-		File file = new File(filePath);
-		file.getParentFile().mkdir();
-
-		FileOutputStream fos;
-		BufferedWriter bw = null;
-		try {
-			fos = new FileOutputStream(file, false);
-			OutputStreamWriter osw = new OutputStreamWriter(fos, "UTF-8");
-			bw = new BufferedWriter(osw);
-
-			Cursor cursor = getContentResolver().query(
-					ItemProviderContract.PLACE_CONTENTURI, null, null, null,
-					null);
-			while (cursor.moveToNext()) {
-				try {
-					long id = cursor
-							.getLong(cursor
-									.getColumnIndexOrThrow(ItemProviderContract.Place.ROW_ID));
-					String name = cursor
-							.getString(cursor
-									.getColumnIndexOrThrow(ItemProviderContract.Place.NAME_COLUMN));
-					double lat = cursor
-							.getDouble(cursor
-									.getColumnIndexOrThrow(ItemProviderContract.Place.LAT_COLUMN));
-					double lon = cursor
-							.getDouble(cursor
-									.getColumnIndexOrThrow(ItemProviderContract.Place.LON_COLUMN));
-					int distance = cursor
-							.getInt(cursor
-									.getColumnIndexOrThrow(ItemProviderContract.Place.DISTANCE_COLUMN));
-					String line = Long.toString(id) + ',' + name + ',' + lat + ',' + lon + ',' + distance;
-					bw.write(line);
-					bw.newLine();
-					bw.flush();
-				} catch(IllegalArgumentException e) {
-					e.printStackTrace();
-				}
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}finally {
-			try {
-				if (bw != null) {
-					bw.close();
-				}
-			} catch (IOException e) {
-			}
-		}
-		return true;
-	}
 
 	private void importData() {
+		
+		new AsyncTask<String, Integer, Boolean>() {
+			
+			@Override
+			protected void onPreExecute() {
+				super.onPreExecute();
+				Log.i(TAG, "start import");
+			}
+
+			@Override
+			protected void onPostExecute(Boolean result) {
+				Log.i(TAG, "finished import: " + result);
+				super.onPostExecute(result);
+			}
+
+			@Override
+			protected Boolean doInBackground(String... params) {
+				ItemProviderUtil.importPlaces(getContentResolver());
+				ItemProviderUtil.importItems(getContentResolver());
+				return true;
+			}
+		}.execute("");
 	}
 
 	/**
