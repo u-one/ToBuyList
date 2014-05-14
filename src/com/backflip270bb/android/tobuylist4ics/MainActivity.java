@@ -185,41 +185,53 @@ public class MainActivity extends FragmentActivity implements
 		file.getParentFile().mkdir();
 
 		FileOutputStream fos;
+		BufferedWriter bw = null;
 		try {
 			fos = new FileOutputStream(file, false);
 			OutputStreamWriter osw = new OutputStreamWriter(fos, "UTF-8");
-			BufferedWriter bw = new BufferedWriter(osw);
+			bw = new BufferedWriter(osw);
 
 			Cursor cursor = getContentResolver().query(
 					ItemProviderContract.ITEM_CONTENTURI, null, null, null,
 					null);
 			while (cursor.moveToNext()) {
-				long id = cursor
-						.getLong(cursor
-								.getColumnIndexOrThrow(ItemProviderContract.Item.ROW_ID));
-				String name = cursor
-						.getString(cursor
-								.getColumnIndexOrThrow(ItemProviderContract.Item.NAME_COLUMN));
-				String memo = cursor
-						.getString(cursor
-								.getColumnIndexOrThrow(ItemProviderContract.Item.MEMO_COLUMN));
-				long time = cursor
-						.getLong(cursor
-								.getColumnIndexOrThrow(ItemProviderContract.Item.DATE_COLUMN));
-				long placeId = cursor
-						.getLong(cursor
-								.getColumnIndexOrThrow(ItemProviderContract.Item.PLACEID_COLUMN));
-				boolean notify = cursor
-						.getInt(cursor
-								.getColumnIndexOrThrow(ItemProviderContract.Item.SHOULDNOTIFY_COLUMN)) == 0 ? false
-						: true;
-				String line = Long.toString(id) + ',' + name + ',' + memo + ',' + time + ',' + placeId + ',' + notify + '\n';
-				bw.write(line);
-				bw.flush();
+				try {
+					long id = cursor
+							.getLong(cursor
+									.getColumnIndexOrThrow(ItemProviderContract.Item.ROW_ID));
+					String name = cursor
+							.getString(cursor
+									.getColumnIndexOrThrow(ItemProviderContract.Item.NAME_COLUMN));
+					String memo = cursor
+							.getString(cursor
+									.getColumnIndexOrThrow(ItemProviderContract.Item.MEMO_COLUMN));
+					long time = cursor
+							.getLong(cursor
+									.getColumnIndexOrThrow(ItemProviderContract.Item.DATE_COLUMN));
+					long placeId = cursor
+							.getLong(cursor
+									.getColumnIndexOrThrow(ItemProviderContract.Item.PLACEID_COLUMN));
+					boolean notify = cursor
+							.getInt(cursor
+									.getColumnIndexOrThrow(ItemProviderContract.Item.SHOULDNOTIFY_COLUMN)) == 0 ? false
+											: true;
+					String line = Long.toString(id) + ',' + name + ',' + memo + ',' + time + ',' + placeId + ',' + notify;
+					bw.write(line);
+					bw.newLine();
+					bw.flush();
+				} catch(IllegalArgumentException e) {
+					e.printStackTrace();
+				}
 			}
-			bw.close();
 		} catch (IOException e) {
-			return false;
+			e.printStackTrace();
+		} finally {
+			try {
+				if (bw != null) {
+					bw.close();
+				}
+			} catch (IOException e) {
+			}
 		}
 		return true;
 	}
@@ -231,38 +243,49 @@ public class MainActivity extends FragmentActivity implements
 		file.getParentFile().mkdir();
 
 		FileOutputStream fos;
+		BufferedWriter bw = null;
 		try {
 			fos = new FileOutputStream(file, false);
 			OutputStreamWriter osw = new OutputStreamWriter(fos, "UTF-8");
-			BufferedWriter bw = new BufferedWriter(osw);
+			bw = new BufferedWriter(osw);
 
 			Cursor cursor = getContentResolver().query(
 					ItemProviderContract.PLACE_CONTENTURI, null, null, null,
 					null);
 			while (cursor.moveToNext()) {
-				long id = cursor
-						.getLong(cursor
-								.getColumnIndexOrThrow(ItemProviderContract.Place.ROW_ID));
-				String name = cursor
-						.getString(cursor
-								.getColumnIndexOrThrow(ItemProviderContract.Place.NAME_COLUMN));
-				double lat = cursor
-						.getDouble(cursor
-								.getColumnIndexOrThrow(ItemProviderContract.Place.LAT_COLUMN));
-				double lon = cursor
-						.getDouble(cursor
-								.getColumnIndexOrThrow(ItemProviderContract.Place.LON_COLUMN));
-				int distance = cursor
-						.getInt(cursor
-								.getColumnIndexOrThrow(ItemProviderContract.Place.DISTANCE_COLUMN));
-				String line = id + ',' + name + ',' + lat + ',' + lon + ',' + distance + '\n';
-				bw.write(line);
-				bw.flush();
+				try {
+					long id = cursor
+							.getLong(cursor
+									.getColumnIndexOrThrow(ItemProviderContract.Place.ROW_ID));
+					String name = cursor
+							.getString(cursor
+									.getColumnIndexOrThrow(ItemProviderContract.Place.NAME_COLUMN));
+					double lat = cursor
+							.getDouble(cursor
+									.getColumnIndexOrThrow(ItemProviderContract.Place.LAT_COLUMN));
+					double lon = cursor
+							.getDouble(cursor
+									.getColumnIndexOrThrow(ItemProviderContract.Place.LON_COLUMN));
+					int distance = cursor
+							.getInt(cursor
+									.getColumnIndexOrThrow(ItemProviderContract.Place.DISTANCE_COLUMN));
+					String line = Long.toString(id) + ',' + name + ',' + lat + ',' + lon + ',' + distance;
+					bw.write(line);
+					bw.newLine();
+					bw.flush();
+				} catch(IllegalArgumentException e) {
+					e.printStackTrace();
+				}
 			}
-			
-			bw.close();
 		} catch (IOException e) {
-			return false;
+			e.printStackTrace();
+		}finally {
+			try {
+				if (bw != null) {
+					bw.close();
+				}
+			} catch (IOException e) {
+			}
 		}
 		return true;
 	}
