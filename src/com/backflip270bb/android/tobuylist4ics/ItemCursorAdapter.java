@@ -1,6 +1,7 @@
 package com.backflip270bb.android.tobuylist4ics;
 
-import com.backflip270bb.android.tobuylist4ics.model.ItemProviderContract;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -9,6 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CursorAdapter;
 import android.widget.TextView;
+
+import com.backflip270bb.android.tobuylist4ics.model.ItemProviderContract;
 
 public class ItemCursorAdapter extends CursorAdapter {
 	LayoutInflater mInflater;
@@ -41,10 +44,16 @@ public class ItemCursorAdapter extends CursorAdapter {
 		String name = cursor.getString(cursor.getColumnIndexOrThrow(ItemProviderContract.Item.NAME_COLUMN));
 		holder.nameText.setText(name);
 		
+		long time = cursor.getLong(cursor.getColumnIndexOrThrow(ItemProviderContract.Item.DATE_COLUMN));
+		Calendar cal = Calendar.getInstance();
+		cal.setTimeInMillis(time);
+		SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd");
+		String dateStr = format.format(cal.getTime());
+		holder.notifText.setText(dateStr);
+		
 		int notif = cursor.getInt(cursor.getColumnIndexOrThrow(ItemProviderContract.Item.SHOULDNOTIFY_COLUMN));
-		String notifText = notif == 0 ? "notif:off" : "notif:on";
-		holder.notifText.setText(notifText);
-
+		String notifText = context.getString(R.string.notif_text, notif == 0 ? "OFF" : "ON");
+		holder.placeText.setText(notifText);
 	}
 
 	@Override
