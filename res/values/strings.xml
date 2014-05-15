@@ -23,6 +23,19 @@
     <string name="save">Save</string>
     <string name="placeNameLabel">Name</string>
     
+    <!-- Preference -->
+    <string name="pref_itemlist_category_title">買い物リスト</string>
+    <string name="pref_add_immediately_title">直接追加する</string>
+    <string name="pref_add_immediately_summary">詳細入力画面を介さず、アクションバーに入力したアイテムを直接追加します。</string>
+    <string name="pref_notification_category_title">通知</string>
+    <string name="pref_notification_title">通知</string>
+    <string name="pref_notification_summary">通知機能を有効にする場合はONにします。</string>
+    <string name="pref_vibration_title">バイブレーション</string>
+    <string name="pref_vibration_summary">通知時のバイブレーション</string>
+    <string name="pref_sound_title">通知音</string>
+    <string name="pref_sound_summary">通知時の音</string>
+    <string name="pref_ringtone_title">通知音を選択</string>
+
     <!-- ACRA -->
     <string name="crash_toast_text">Ooooops ! I crashed, pleas send a report to help fix the issue !</string>
     <string name="crash_notif_ticker_text">Unexpected error, please send a report</string>
