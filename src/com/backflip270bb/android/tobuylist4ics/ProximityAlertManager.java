@@ -11,11 +11,13 @@ import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.location.LocationManager;
 import android.net.Uri;
+import android.preference.PreferenceManager;
 import android.provider.BaseColumns;
 import android.util.Log;
 
@@ -58,6 +60,11 @@ public class ProximityAlertManager {
 
 	public void update() {
 		clearAlerts();
+		
+		SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(mContext);
+		if (!pref.getBoolean(PreferenceActivity.KEY_NOTIFICATION_ENABLED, true)) {
+			return;
+		}
 		
 		List<Long> placeIds = getNotificationRequestedPlaceIds();
 		Cursor cursor = queryPlaces(placeIds);
@@ -138,8 +145,13 @@ public class ProximityAlertManager {
 	}
 
 	private void showNotification(Context context, int iconID, String ticker, String title, String message, String contentInfo, Long itemId) {
+		SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(mContext);
+		boolean vibe = pref.getBoolean(PreferenceActivity.KEY_NOTIFICATION_VIBE, false);
+		boolean sound = pref.getBoolean(PreferenceActivity.KEY_NOTIFICATION_SOUND, false);
+		
 		PendingIntent pintent = PendingIntent.getActivity(context, 0, new Intent(context, MainActivity.class), PendingIntent.FLAG_ONE_SHOT);
-		Notification notification = new Notification.Builder(context)
+		Notification.Builder builder = new Notification.Builder(context);
+		builder
 			.setContentTitle(title)
 			.setContentText(message)
 			.setContentInfo(contentInfo)
@@ -148,10 +160,11 @@ public class ProximityAlertManager {
 			.setTicker(ticker)
 			.setWhen(Calendar.getInstance().getTimeInMillis())
 			.setContentIntent(pintent)
-			.setVibrate(new long[] {0, 500,500, 500,500, 500,500})
-			.setAutoCancel(true)
-			.getNotification();
-			
+			.setAutoCancel(true);
+		if (vibe) {
+			builder.setVibrate(new long[] {0, 500,500, 500,500, 500,500});
+		}
+		Notification notification = builder.getNotification();
 		NotificationManager nmgr;
 		nmgr= (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
 		nmgr.notify(itemId.hashCode(), notification);

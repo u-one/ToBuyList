@@ -6,6 +6,7 @@ import java.util.Locale;
 
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -150,6 +151,7 @@ public class MainActivity extends FragmentActivity implements
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch(item.getItemId()) {
 		case R.id.action_settings:
+			startPreferenceActivity();
 			break;
 		case R.id.action_export:
 			exportData();
@@ -160,7 +162,13 @@ public class MainActivity extends FragmentActivity implements
 		}
 		return super.onOptionsItemSelected(item);
 	}
-	
+
+	private void startPreferenceActivity() {
+		Intent intent = new Intent();
+		intent.setClass(this, PreferenceActivity.class);
+		startActivity(intent);
+	}
+
 	private void exportData() {
 		new AsyncTask<String, Integer, Boolean>() {
 			

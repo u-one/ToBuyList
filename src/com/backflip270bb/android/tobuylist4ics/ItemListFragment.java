@@ -5,8 +5,10 @@ import java.util.Calendar;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.ListFragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
@@ -113,7 +115,9 @@ public class ItemListFragment extends ListFragment implements LoaderManager.Load
 			@Override
 			public void onClick(View v) {
 				String name = editText.getText().toString();
-				if (!name.isEmpty()) {
+				SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getActivity());
+				boolean addImmediately = pref.getBoolean(PreferenceActivity.KEY_ITEMLIST_ADD_IMMEDIATELY, true);
+				if (!name.isEmpty() && addImmediately) {
 					ContentValues values = new ContentValues();
 					values.put(ItemProviderContract.Item.NAME_COLUMN, name);
 					values.put(ItemProviderContract.Item.DATE_COLUMN, Calendar.getInstance().getTimeInMillis());

@@ -47,6 +47,9 @@
         </activity>
         <activity android:name="ItemDetailActivity" >
         </activity>
+        <activity android:name="PreferenceActivity"
+            android:exported="false">
+        </activity>
 
         <provider
             android:name=".model.ItemProvider"
