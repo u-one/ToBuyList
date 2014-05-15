@@ -15,6 +15,8 @@ public class ItemCursorAdapter extends CursorAdapter {
 	
 	class ViewHolder {
 		TextView nameText;
+		TextView notifText;
+		TextView placeText;
 	}
 	public ItemCursorAdapter(Context context, Cursor c, boolean autoRequery) {
 		super(context, c, autoRequery);
@@ -26,6 +28,8 @@ public class ItemCursorAdapter extends CursorAdapter {
 		View view = mInflater.inflate(R.layout.list_item, null);
 		ViewHolder holder = new ViewHolder();
 		holder.nameText = (TextView)view.findViewById(R.id.textView1);
+		holder.notifText = (TextView)view.findViewById(R.id.textView2);
+		holder.placeText = (TextView)view.findViewById(R.id.textView3);
 		view.setTag(holder);
 		return view;
 	}
@@ -36,6 +40,11 @@ public class ItemCursorAdapter extends CursorAdapter {
 		
 		String name = cursor.getString(cursor.getColumnIndexOrThrow(ItemProviderContract.Item.NAME_COLUMN));
 		holder.nameText.setText(name);
+		
+		int notif = cursor.getInt(cursor.getColumnIndexOrThrow(ItemProviderContract.Item.SHOULDNOTIFY_COLUMN));
+		String notifText = notif == 0 ? "notif:off" : "notif:on";
+		holder.notifText.setText(notifText);
+
 	}
 
 	@Override
