@@ -12,6 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentBottom="true"
+        android:hint="@string/direct_adder_hint"
         android:ems="10" >
     </EditText>
 
