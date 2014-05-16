@@ -10,6 +10,9 @@ public class PreferenceActivity extends Activity {
 	public static final String KEY_NOTIFICATION_VIBE = "notification_vibe";
 	public static final String KEY_NOTIFICATION_SOUND = "notification_sound";
 	public static final String KEY_NOTIFICATION_RINGTONE = "notification_ringtone";
+	public static final String KEY_NOTIFICATION_EACHITEM = "notification_eachitem";
+	public static final String KEY_NOTIFICATION_ONCE = "notification_once";
+	public static final String KEY_DEBUG = "debug";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

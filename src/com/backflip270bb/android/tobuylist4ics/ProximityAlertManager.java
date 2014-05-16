@@ -1,5 +1,6 @@
 package com.backflip270bb.android.tobuylist4ics;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -86,14 +87,19 @@ public class ProximityAlertManager {
 		}
 	}
 
-	public void notify(long placeId, boolean shouldRemoveAlert) {
+	public void notify(long placeId) {
 		Cursor cursor = queryPlace(placeId);
 		if (cursor.moveToFirst()) {
 			String name = cursor.getString(cursor.getColumnIndexOrThrow(ItemProviderContract.Place.NAME_COLUMN));
 			Log.i(TAG, "place name:" + name);
-
-			showNotifications(placeId, name);
-			
+			SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(mContext);
+			boolean shouldNotifyEachItem = pref.getBoolean(PreferenceActivity.KEY_NOTIFICATION_EACHITEM, false);
+			if (shouldNotifyEachItem) {
+				showNotifications(placeId, name);
+			} else {
+				showNotification(mContext, R.drawable.ic_launcher, "To Buy Item", name, "tap to show the list", getCurrentTimeString(), placeId);
+			}
+			boolean shouldRemoveAlert = pref.getBoolean(PreferenceActivity.KEY_NOTIFICATION_ONCE, true);
 			if (shouldRemoveAlert) {
 				removeAlert(placeId);
 				Log.w(TAG, "removed alert");
@@ -101,6 +107,11 @@ public class ProximityAlertManager {
 		} else {
 			Log.w(TAG, "No item to notify.");
 		}
+	}
+	private String getCurrentTimeString() {
+		Calendar calendar = Calendar.getInstance();
+		SimpleDateFormat format = new SimpleDateFormat("HH:mm");
+		return format.format(calendar.getTime());
 	}
 
 	private void registerAlert(double lat, double lon, int distance, long placeId) {

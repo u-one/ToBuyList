@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <PreferenceCategory android:title="@string/pref_itemlist_category_title" >
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="itemlist_add_immediately"
+            android:summary="@string/pref_add_immediately_summary"
+            android:title="@string/pref_add_immediately_title" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/pref_notification_category_title" >
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="notification_enabled"
+            android:summary="@string/pref_notification_summary"
+            android:title="@string/pref_notification_title" />
+        
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="notification_eachitem"
+            android:summary="@string/pref_notif_eachitem_summary"
+            android:title="@string/pref_notif_eachitem_title" />
+        
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="notification_once"
+            android:summary="@string/pref_notif_once_summary"
+            android:title="@string/pref_notif_once_title" />
+
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="notification_vibe"
+            android:summary="@string/pref_vibration_summary"
+            android:title="@string/pref_vibration_title" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="notification_sound"
+            android:summary="@string/pref_sound_summary"
+            android:title="@string/pref_sound_title" />
+
+        <RingtonePreference
+            android:key="notification_ringtone"
+            android:ringtoneType="notification"
+            android:showDefault="true"
+            android:title="@string/pref_ringtone_title" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/pref_debug_category_title" >
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="debug"
+            android:summary="@string/pref_debug_summary"
+            android:title="@string/pref_debug_title" />
+    </PreferenceCategory>
+
+</PreferenceScreen>

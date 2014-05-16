@@ -7,8 +7,10 @@ import java.util.Locale;
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -129,7 +131,9 @@ public class MainActivity extends FragmentActivity implements
 
 		@Override
 		public int getCount() {
-			return 3;
+			SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
+			boolean isdebug = pref.getBoolean(PreferenceActivity.KEY_DEBUG, false);
+			return isdebug ? 3 : 2;
 		}
 
 		@Override

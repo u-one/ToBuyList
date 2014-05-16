@@ -3,8 +3,10 @@ package com.backflip270bb.android.tobuylist4ics;
 import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.IBinder;
 import android.os.Vibrator;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 public class ProximityNotificationService extends IntentService {
@@ -47,8 +49,9 @@ public class ProximityNotificationService extends IntentService {
 
 	private void handleNotifyAction(long placeId) {
 		Log.i(TAG, "action:nofity placeId:" + placeId);
+		
 		if (placeId != -1) {
-			mAlertManager.notify(placeId, true/* TODO: get from settings */);
+			mAlertManager.notify(placeId);
 		} else {
 			Log.e(TAG, "invalid placeId");
 		}

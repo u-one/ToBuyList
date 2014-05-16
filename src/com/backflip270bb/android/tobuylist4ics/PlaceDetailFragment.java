@@ -182,7 +182,7 @@ public class PlaceDetailFragment extends Fragment implements LoaderManager.Loade
 	}
 
 	private void debugToast(String message) {
-		Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
+		DebugUtil.debugToast(getActivity().getApplicationContext(), message);
 	}
 	
 	private void updatePos() {

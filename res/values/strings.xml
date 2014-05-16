@@ -5,8 +5,8 @@
     <string name="action_settings">Settings</string>
     <string name="action_import">インポート</string>
     <string name="action_export">エクスポート</string>
-    <string name="title_section1">ToBuyItems</string>
-    <string name="title_section2">Places</string>
+    <string name="title_section1">お買いものリスト</string>
+    <string name="title_section2">お知らせ場所リスト</string>
     <string name="title_section3">Debug</string>
     <string name="area_text">%1$s 付近</string>
     <string name="radius_text">半径%1$dm</string>
@@ -30,11 +30,18 @@
     <string name="pref_notification_category_title">通知</string>
     <string name="pref_notification_title">通知</string>
     <string name="pref_notification_summary">通知機能を有効にする場合はONにします。</string>
+    <string name="pref_notif_eachitem_title">アイテムごとの通知</string>
+    <string name="pref_notif_eachitem_summary">有効にするとアイテムごとに通知します。無効にすると位置単位で通知します。</string>
+    <string name="pref_notif_once_title">反復して通知しない</string>
+    <string name="pref_notif_once_summary">有効にすると同じ位置の通知は一度きりになります。再びいずれかのアイテムに対して位置通知が設定されるまで通知しません。</string>
     <string name="pref_vibration_title">バイブレーション</string>
     <string name="pref_vibration_summary">通知時のバイブレーション</string>
     <string name="pref_sound_title">通知音</string>
     <string name="pref_sound_summary">通知時の音</string>
     <string name="pref_ringtone_title">通知音を選択</string>
+    <string name="pref_debug_category_title">デバッグ</string>
+    <string name="pref_debug_title">デバッグモード</string>
+    <string name="pref_debug_summary">いわずもがな</string>
 
     <!-- ACRA -->
     <string name="crash_toast_text">Ooooops ! I crashed, pleas send a report to help fix the issue !</string>
