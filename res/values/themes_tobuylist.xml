@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- Generated with http://android-holo-colors.com -->
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <style name="ToBuyList" parent="@style/_ToBuyList" />
+
+    <style name="_ToBuyList" parent="android:Theme.Holo.Light.DarkActionBar">
+        <item name="android:editTextBackground">@drawable/tobuylist_edit_text_holo_light</item>
+        <item name="android:textColorHighlight">#99ffbb33</item>
+        <item name="android:textSelectHandleLeft">@drawable/tobuylist_text_select_handle_left</item>
+        <item name="android:textSelectHandleRight">@drawable/tobuylist_text_select_handle_right</item>
+        <item name="android:textSelectHandle">@drawable/tobuylist_text_select_handle_middle</item>
+        <item name="android:autoCompleteTextViewStyle">@style/AutoCompleteTextViewToBuyList</item>
+        <item name="android:listChoiceIndicatorMultiple">@drawable/tobuylist_btn_check_holo_light</item>
+        <item name="android:listChoiceIndicatorSingle">@drawable/tobuylist_btn_radio_holo_light</item>
+        <item name="android:buttonStyle">@style/ButtonToBuyList</item>
+        <item name="android:imageButtonStyle">@style/ImageButtonToBuyList</item>
+        <item name="android:dropDownSpinnerStyle">@style/SpinnerToBuyList</item>
+        <item name="android:progressBarStyleHorizontal">@style/ProgressBarToBuyList</item>
+        <item name="android:buttonStyleToggle">@style/ToggleToBuyList</item>
+        <item name="android:listChoiceBackgroundIndicator">@drawable/tobuylist_list_selector_holo_light</item>
+        <item name="android:activatedBackgroundIndicator">@drawable/tobuylist_activated_background_holo_light</item>
+
+        <!-- ActionBar -->
+        <item name="android:actionBarItemBackground">@drawable/selectable_background_tobuylist</item>
+        <item name="android:popupMenuStyle">@style/PopupMenu.Tobuylist</item>
+        <item name="android:dropDownListViewStyle">@style/DropDownListView.Tobuylist</item>
+        <item name="android:actionBarTabStyle">@style/ActionBarTabStyle.Tobuylist</item>
+        <item name="android:actionDropDownStyle">@style/DropDownNav.Tobuylist</item>
+        <item name="android:actionBarStyle">@style/ActionBar.Solid.Tobuylist</item>
+        <item name="android:actionModeBackground">@drawable/cab_background_top_tobuylist</item>
+        <item name="android:actionModeSplitBackground">@drawable/cab_background_bottom_tobuylist</item>
+        <item name="android:actionModeCloseButtonStyle">@style/ActionButton.CloseMode.Tobuylist</item>
+
+        <!-- Light.DarkActionBar specific -->
+        <item name="android:actionBarWidgetTheme">@style/Theme.Tobuylist.Widget</item>
+    </style>
+
+</resources>

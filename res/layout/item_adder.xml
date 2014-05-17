@@ -7,13 +7,14 @@
 
     <EditText
         android:id="@+id/editText"
-        android:inputType="text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
         android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:background="@drawable/tobuylist_edit_text_holo_light"
+        android:ems="10"
         android:hint="@string/direct_adder_hint"
-        android:ems="10" >
+        android:inputType="text" >
     </EditText>
 
     <ImageButton

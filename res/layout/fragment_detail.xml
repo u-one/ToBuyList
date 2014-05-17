@@ -60,9 +60,11 @@
         android:id="@+id/switchNotification"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-		android:layout_marginTop="@dimen/itemdetail_vertical_margin"
         android:layout_below="@id/textViewBorderNotif"
-        android:text="" />
+        android:layout_marginTop="@dimen/itemdetail_vertical_margin"
+        android:text=""
+        android:thumb="@drawable/tobuylist_switch_inner_holo_light" />
+
     <Spinner
         android:id="@+id/spinnerPlace"
         android:layout_width="wrap_content"
