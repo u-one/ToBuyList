@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+    <PreferenceCategory android:title="@string/pref_category_all_title" >
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="split_actionbar"
+            android:title="@string/pref_split_actionbar_title"
+            android:summary="@string/pref_split_actionbar_summary" />
+    </PreferenceCategory> 
 
     <PreferenceCategory android:title="@string/pref_itemlist_category_title" >
         <CheckBoxPreference

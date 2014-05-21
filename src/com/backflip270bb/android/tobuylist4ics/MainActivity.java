@@ -8,6 +8,7 @@ import android.app.ActionBar;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -48,6 +49,11 @@ public class MainActivity extends FragmentActivity implements
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
+		boolean splitActionbar = pref.getBoolean(PreferenceActivity.KEY_SPLITACTIONBAR, false);
+		if (splitActionbar) {
+			getWindow().setUiOptions(ActivityInfo.UIOPTION_SPLIT_ACTION_BAR_WHEN_NARROW);
+		}
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 

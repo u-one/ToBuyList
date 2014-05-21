@@ -13,6 +13,7 @@ public class PreferenceActivity extends Activity {
 	public static final String KEY_NOTIFICATION_EACHITEM = "notification_eachitem";
 	public static final String KEY_NOTIFICATION_ONCE = "notification_once";
 	public static final String KEY_DEBUG = "debug";
+	public static final String KEY_SPLITACTIONBAR = "split_actionbar";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

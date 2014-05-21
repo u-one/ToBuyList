@@ -25,6 +25,9 @@
     <string name="placeNameLabel">Name</string>
     
     <!-- Preference -->
+    <string name="pref_category_all_title">全体</string>
+    <string name="pref_split_actionbar_title">アクションバーを分割</string>
+    <string name="pref_split_actionbar_summary">次回起動時から有効。</string>
     <string name="pref_itemlist_category_title">買い物リスト</string>
     <string name="pref_add_immediately_title">直接追加する</string>
     <string name="pref_add_immediately_summary">詳細入力画面を介さず、アクションバーに入力したアイテムを直接追加します。</string>
