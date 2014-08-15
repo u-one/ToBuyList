@@ -186,14 +186,20 @@ public class ItemDetailFragment extends Fragment implements LoaderManager.Loader
 	@Override
 	public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
 		Log.d(TAG, "onLoadFinished");
-		if (cursor.moveToFirst()) {
-			switch(loader.getId()) {
-			case PLACE_LOADER:
+		switch (loader.getId()) {
+		case PLACE_LOADER:
+			if (cursor.moveToFirst()) {
 				placeAdapter.swapCursor(cursor);
 				placeAdapter.notifyDataSetChanged();
-				getLoaderManager().initLoader(TOBUYITEM_LOADER, getArguments(), this);
-				break;
-			case TOBUYITEM_LOADER:
+				switchNotification.setEnabled(true);
+			} else {
+				//failed or no item
+				switchNotification.setEnabled(false);
+			}
+			getLoaderManager().initLoader(TOBUYITEM_LOADER, getArguments(), this);
+			break;
+		case TOBUYITEM_LOADER:
+			if (cursor.moveToFirst()) {
 				id = cursor.getLong(cursor.getColumnIndexOrThrow(ItemProviderContract.Item.ROW_ID));
 				String name = cursor.getString(cursor.getColumnIndexOrThrow(ItemProviderContract.Item.NAME_COLUMN));
 				String memo = cursor.getString(cursor.getColumnIndexOrThrow(ItemProviderContract.Item.MEMO_COLUMN));
@@ -212,16 +218,17 @@ public class ItemDetailFragment extends Fragment implements LoaderManager.Loader
 					placeSpinner.setVisibility(View.GONE);
 				}
 
-				EditText editTextName = (EditText)getView().findViewById(R.id.editTextName);
+				EditText editTextName = (EditText) getView().findViewById(R.id.editTextName);
 				editTextName.setText(name);
 				if (memo != null) {
-					EditText editTextMemo = (EditText)getView().findViewById(R.id.editTextMemo);
+					EditText editTextMemo = (EditText) getView().findViewById(R.id.editTextMemo);
 					editTextMemo.getEditableText().append(memo);
 				}
 				setCurrentTime(time);
-				
-				break;
+			} else {
+				// TODO Error: failed to load
 			}
+			break;
 		}
 	}
 
